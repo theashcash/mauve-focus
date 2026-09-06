@@ -1,43 +1,105 @@
-<!DOCtype html>
+<!DOCTYPE html>
 <html>
-    <head>
-        <title>Aaysha's Website</title>
-        <a src="style.css"></a>
-    </head>
-    <body>
-        <div class="menu-bar">
-            <div class="website-name">/div for the website name and logo
 
-            </div>
-            <div class="info"></div>//div for displaying the time date light/dark mode switch
-        </div>
-        <div class="welcome">//div for the "hii aayshaa...">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Indie+Flower&family=Press+Start+2P&family=Shadows+Into+Light+Two&display=swap" rel="stylesheet">    
+    <link rel="stylesheet" href="style.css">
+</head>
 
-        </div>
-        <div clas="tasks">//div for todays and future tasks 
+<body>
+    <header>
+        <section class="menu-bar">
+            <section class="website-name">
+                <h2>Mauve focus</h2>
+            </section>
+            <section class="info">
+                <button type="button" id="mode-btn">Dark Mode🌑</button>
+                <p>day</p>
+                <p>month</p>
+                <p>date</p>
+                <p>time AM/PM</p>
+            </section>
+        </section>
+    </header>
 
-        </div>
-        <div class="study-time">//for total hours studied today
-            <div class="hours">
+    <main>
+        <section class="welcome">
+            <h3>Welcome Aaysha...</h3>
+        </section>
 
-            </div>
-            <div class="minutes">
+        <section class="tasks">
+            <h3>Tasks</h3>
+            <section class="task-filter">
+                <button type="button">Today</button>
+                <button type="button">All Tasks</button>
+            </section>
+            <button type="button">Add Task</button>
+        </section>
 
-            </div>
-        </div>
-        <div class="pomotimer">
+        <section class="study-time">
 
-        </div>
-        <div class="contribution-calendar">
+            <h2>Today's Study Time</h2>
 
-        </div>
-        <div class="day-counter">
+            <section class="study-time-display">
 
-        </div>
-        <div class="progress-counter"> //progress for number of leetcode qns/projects done 
+                <section class="hour-time-box">
+                    <span class="time-value">10</span>
+                    <span class="time-label">HRS</span>
+                </section>
 
-        </div>
+                <span class="time-separator">:</span>
 
+                <section class="min-time-box">
+                    <span class="time-value">13</span>
+                    <span class="time-label">MIN</span>
+                </section>
 
-    </body>
+            </section>
+        </section>
+
+        <section class="pomodoro">
+            <h3>Pomodoro Timer</h3>
+            <section class="timer-mode">
+                <button type="button">Stopwatch</button>
+                <button type="button">Timer</button>
+            </section>
+            <button>Start Focus</button>
+        </section>
+
+        <section class="contribution-calendar">
+            <h2>Progress HeatMap</h2>
+        </section>
+        <section class="countdowns">
+            <section class="day-counter">
+                <h2>Countdowns</h2>
+                <button>+ Event</button>
+            </section>
+            <section class="progress">
+                <h3>Progress Counter</h3>
+                <button type="button">+ Progress Counter</button>
+                <div class="activties">
+                    <p>Leetcode Questions Counter:</p>
+                    <p>Projects Counter:</p>
+                </div>
+                
+            </section>
+        </section>
+
+        <section class="projects">
+            <h2>Projects</h2>
+            <button type="button">+Add Project</button>
+
+            <section class="project-list">
+            </section>
+
+        </section>
+        
+
+    </main>
+
+</body>
+
 </html>
