@@ -29,14 +29,15 @@
         <section class="welcome">
             <h3>Welcome Aaysha...</h3>
         </section>
-
         <section class="tasks">
-            <h3>Tasks</h3>
+            <div class="header">
+                <h3>Tasks</h3>
+                <button id="add-task" type="button">+Task</button>
+            </div>
             <section class="task-filter">
                 <button type="button">Today</button>
                 <button type="button">All Tasks</button>
             </section>
-            <button type="button">Add Task</button>
         </section>
 
         <section class="study-time">
@@ -46,14 +47,14 @@
             <section class="study-time-display">
 
                 <section class="hour-time-box">
-                    <span class="time-value">10</span>
+                    <span class="time-value">0</span>
                     <span class="time-label">HRS</span>
                 </section>
 
                 <span class="time-separator">:</span>
 
                 <section class="min-time-box">
-                    <span class="time-value">13</span>
+                    <span class="time-value">0</span>
                     <span class="time-label">MIN</span>
                 </section>
 
@@ -61,12 +62,20 @@
         </section>
 
         <section class="pomodoro">
-            <h3>Pomodoro Timer</h3>
+            <section class="pomodoro-header">
+                <h3>Pomodoro Timer</h3>
+            </section>
             <section class="timer-mode">
                 <button type="button">Stopwatch</button>
                 <button type="button">Timer</button>
             </section>
-            <button>Start Focus</button>
+            <span id="timer-display">00:00</span>
+            <button id="start-focus" type="button">Start Focus</button>
+            <section id="post-start">
+                <button id="pause-focus" type="button">Pause Focus</button>
+                <button id="resume-focus" type="button">Resume Focus</button>
+                <button id="stop-focus" type="button">Stop Focus</button>
+            </section>
         </section>
 
         <section class="contribution-calendar">
@@ -74,32 +83,39 @@
         </section>
         <section class="countdowns">
             <section class="day-counter">
-                <h2>Countdowns</h2>
-                <button>+ Event</button>
+
+                <section class="countdown-header">
+                    <h2>Countdowns</h2>
+                    <button>+ Event</button>
+                </section>
+
             </section>
             <section class="progress">
-                <h3>Progress Counter</h3>
-                <button type="button">+ Progress Counter</button>
-                <div class="activties">
+                <section class="progress-header">
+                    <h3>Progress Counter</h3>
+                    <button type="button">+ Progress Counter</button>
+                </section>
+                <div class="activities">
                     <p>Leetcode Questions Counter:</p>
                     <p>Projects Counter:</p>
                 </div>
-                
             </section>
         </section>
 
-        <section class="projects">
-            <h2>Projects</h2>
-            <button type="button">+Add Project</button>
+       <section class="projects">
+
+            <section class="projects-header">
+                <h2>Projects</h2>
+                <button type="button">+Add Project</button>
+            </section>
 
             <section class="project-list">
             </section>
 
         </section>
         
-
     </main>
-
+    <script src="./script.js"></script>
 </body>
 
 </html>

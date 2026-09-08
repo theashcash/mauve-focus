@@ -1,14 +1,19 @@
 *{
     box-sizing:border-box;
 }
-body{
-    width:auto;
-    height:auto;
-    background-color:rgb(239, 205, 211);
+body {
+    margin: 0;
+    width: 100%;
+    min-height: 100vh;
+    background-color: rgb(239, 205, 211);
+}
+header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
 }
 .menu-bar {
     width: 100%;
-    border: 1px solid blue;
     height: 30px;
     display: flex;
     margin: 0;
@@ -28,12 +33,15 @@ body{
 .info{
     color:maroon;
     display:flex;
-    gap:3px;
+    gap:5px;
+    margin-right:7px;
 }
 .info p{
+    font-family: "Shadows Into Light Two", cursive;
+    font-weight:700;
     margin:0px;
     padding:0px;
-    margin-top: 3px;
+    margin-top:5px;
 }
 #mode-btn{
     margin-top:1px;
@@ -49,29 +57,66 @@ body{
 .welcome h3{
     font-family: "Architects Daughter", cursive;
     margin:0px;
+    margin-top:5px;
     color:maroon;
 }
 .welcome {
     flex-basis: 100%;
 }
-main{
-    border:1px solid yellow;
-    display:flex;
+main {
+    width: 100%;
+    display: flex;
     flex-wrap: wrap;
 }
 .tasks{
     width:480px;
     height: 395px;
-    border:1px solid green;
-    
+    background-color:rgb(239, 187, 204);
+    margin:3px;
+    margin-left:8px;
+    border-radius: 1cm;
+    overflow:hidden;
+    box-shadow: 1px 1px 12px -1px rgba(0,0,0,0.75);
 }
 .tasks h3{
     margin:0;
+    padding-left:210px;
     font-size:25px;
     font-family: "Shadows Into Light Two", cursive;
     color:maroon;
-    text-align: center;
+
 }
+.header{
+    display:flex;
+    background-color:antiquewhite;
+}
+#add-task{
+    color: maroon;
+    font-size:14px;
+    background-color: rgb(252,241,201);
+    padding:1px;
+    height:20%;
+    margin:7px;
+    border-radius: 0.2cm;
+    border-color: peachpuff;
+    margin-left:150px;
+    margin-top:9px;
+
+}
+.task-filter{
+    margin-left:185px;
+    margin-top:5px;
+}
+.task-filter>button{
+    color: maroon;
+    background-color: rgb(252,241,201);
+    padding: 3px;
+    border-radius: 0.4cm;
+    border-color: peachpuff;
+    font-size:16px;
+    margin:0;
+}
+
 .study-time{
     width:480px;
 }
@@ -126,23 +171,135 @@ main{
     font-size:180px;
     padding-top:65px;
     padding-right:30px;
+    margin-left:20px;
 }
 .time-label{
     font-size:30px;
     text-align: end;
     padding-right: 10px;;
 }
-.pomodoro{
-    width:477px;
-    height:395px;
-    border:1px solid lime;
+.pomodoro {
+    width: 477px;
+    height: 395px;
+    background-color: rgb(239, 187, 204);
+    margin: 4px;
+    border-radius: 1cm;
+    overflow: hidden;
+    box-shadow: 1px 1px 12px -1px rgba(0,0,0,0.75);
+
+    display: flex;
+    flex-direction: column;
 }
-.pomodoro>h3{
-    margin:0;
-    font-size:25px;
-    font-family: "Shadows Into Light Two", cursive;
-    color:maroon;
+#timer-display{
+    width:100%;
+    height:90%;
+    margin:0px;
+    margin-left:20px;
     text-align: center;
+    font-size:140px;
+    padding-top:55px;
+    padding-right:30px;
+    color:maroon;
+}
+.pomodoro-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    background-color: antiquewhite;
+}
+.pomodoro-header > h3 {
+    margin: 0;
+    font-size: 25px;
+    font-family: "Shadows Into Light Two", cursive;
+    color: maroon;
+}
+.timer-mode {
+    display: flex;
+    justify-content: center;
+    gap: 3px;
+    margin-top: 5px;
+}
+
+.timer-mode > button {
+    color: maroon;
+    background-color: rgb(252,241,201);
+    padding: 3px 10px;
+    border-radius: 0.4cm;
+    border-color: peachpuff;
+    font-size: 16px;
+}
+#start-focus {
+    color: maroon;
+    background-color: rgb(252,241,201);
+    font-family: "Shadows Into Light Two", cursive;
+    font-size: 20px;
+    border-radius: .3cm;
+    font-weight: 600;
+    border-color: peachpuff;
+    padding:5px;
+    width: 120px;
+    height: 50px;
+
+    margin-top:auto;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom:35px;
+}
+#post-start{
+    text-align: center;
+    margin:0px;
+}
+#pause-focus{
+    color: maroon;
+    background-color: rgb(252,241,201);
+    font-family: "Shadows Into Light Two", cursive;
+    font-size: 20px;
+    border-radius: .3cm;
+    font-weight: 600;
+    border-color: peachpuff;
+    padding:5px;
+    width: 120px;
+    height: 45px;
+
+    margin-top: auto;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 35px;
+}
+#stop-focus{
+    color: maroon;
+    background-color: rgb(252,241,201);
+    font-family: "Shadows Into Light Two", cursive;
+    font-size: 20px;
+    border-radius: .3cm;
+    font-weight: 600;
+    border-color: peachpuff;
+    padding:5px;
+    width: 120px;
+    height: 45px;
+
+    margin-top: auto;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 35px;
+}
+#resume-focus{
+    color: maroon;
+    background-color: rgb(252,241,201);
+    font-family: "Shadows Into Light Two", cursive;
+    font-size: 20px;
+    border-radius: .3cm;
+    font-weight: 600;
+    border-color: peachpuff;
+    padding:5px;
+    width: 130px;
+    height: 45px;
+
+    margin-top: auto;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 35px; 
 }
 .contribution-calendar{
     width:550px;
@@ -157,55 +314,77 @@ main{
     text-align: center;
 }
 .day-counter {
-    border: 1px solid green;
     width: 330px;
+    height: 175px;
+    margin: 3px;
+    background-color: rgb(239, 187, 204);
+    border-radius: 1cm;
+    overflow: hidden;
+    box-shadow: 1px 1px 12px -1px rgba(0,0,0,0.75);
+
     font-family: "Shadows Into Light Two", cursive;
     color: maroon;
-    height: 175px;
+}
+
+.countdown-header {
+    height: 40px;
+    background-color: antiquewhite;
 
     display: flex;
-    flex-wrap: wrap;
     align-items: center;
-    align-content: flex-start;
 }
-.day-counter>h2{
+
+.countdown-header > h2 {
     font-size: 20px;
     margin: 0;
     width: 60%;
     text-align: center;
-    padding-left:100px;
 }
-.day-counter>button{
+
+.countdown-header > button {
     color: maroon;
     background-color: rgb(252,241,201);
     padding: 1.5px;
     border-radius: 0.2cm;
     border-color: peachpuff;
-    margin-left: 70px;
+    margin-left: 50px;
 }
-
 
 .progress {
-    display: flex;
-    flex-wrap: wrap;
-    border: 1px solid green;
     width: 330px;
+    height: 155px;
+    margin: 3px;
+
+    background-color: rgb(239, 187, 204);
+    border-radius: 1cm;
+    overflow: hidden;
+    box-shadow: 1px 1px 12px -1px rgba(0,0,0,0.75);
+
     font-family: "Shadows Into Light Two", cursive;
     color: maroon;
-    height: 155px;
-    column-gap: 5px;
-    row-gap: 10px;
-    align-items: center;
+
+    display: flex;
+    flex-wrap: wrap;
     align-content: flex-start;
 }
+.progress-header {
+    width: 100%;
+    height: 40px;
+    background-color: antiquewhite;
 
-.progress > h3 {
-    margin: 0;
-    width: 60%;
-    padding-left: 72px;
+    display: flex;
+    align-items: center;
 }
 
-.progress > button {
+.progress-header > h3 {
+    margin: 0;
+    width: 60%;
+    text-align: center;
+    font-size: 18px;
+    white-space: nowrap;
+}
+
+.progress-header > button {
     color: maroon;
     background-color: rgb(252,241,201);
     padding: 1px;
@@ -215,37 +394,56 @@ main{
 }
 
 .activities {
-    flex-basis: 100%;
+    width: 100%;
+    padding: 8px;
 }
 
 .progress p {
     margin: 0;
     padding: 3px;
 }
+
 .projects {
-    border: 1px solid blue;
-    height: 330px;
     width: 557px;
+    height: 330px;
+    margin: 3px;
+    margin-left:8px;
+
+    background-color: rgb(239, 187, 204);
+    border-radius: 1cm;
+    overflow: hidden;
+    box-shadow: 1px 1px 12px -1px rgba(0,0,0,0.75);
+
     font-family: "Shadows Into Light Two", cursive;
     color: maroon;
 
     display: flex;
     flex-wrap: wrap;
     align-content: flex-start;
+}
+.projects-header {
+    width: 100%;
+    height: 40px;
+    background-color: antiquewhite;
+
+    display: flex;
     align-items: center;
 }
-.projects > h2 {
+
+.projects-header > h2 {
     margin: 0;
-    padding-left:150px;
     width: 60%;
-    text-align: center;
+    text-align:left;
+    margin-left:50px;
+    font-size: 22px;
 }
 
-.projects > button {
+.projects-header > button {
     color: maroon;
     background-color: rgb(252,241,201);
     padding: 1px;
     border-radius: 0.2cm;
     border-color: peachpuff;
-    margin-left:120px;
+    margin-left: 70px;
+    font-size: 14px;
 }
