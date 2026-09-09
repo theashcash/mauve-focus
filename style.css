@@ -33,7 +33,7 @@ header {
 .info{
     color:maroon;
     display:flex;
-    gap:5px;
+    gap:7px;
     margin-right:7px;
 }
 .info p{

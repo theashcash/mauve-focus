@@ -44,6 +44,7 @@ let totalStudyTime=0;
 let timer;
 
 
+
 let minStudyTime=document.querySelector(".min-time-box");
 let minStudyTimeVal=minStudyTime.querySelector(".time-value");
 let hourStudyTime=document.querySelector(".hour-time-box");
@@ -56,11 +57,8 @@ const stopFocus=document.querySelector("#stop-focus");
 const pauseFocus=document.querySelector("#pause-focus");
 const resumeFocus=document.querySelector("#resume-focus");
 const postStart=document.querySelector("#post-start");
-postStart.hidden=true;
-resumeFocus.hidden=true;
-startFocus.addEventListener("click",() => {
-    startFocus.hidden=true;
-    postStart.hidden=false;
+
+function startStopwatch(){
     timer=setInterval(()=> {
         totalSeconds++;
         displayMinute=Math.floor(totalSeconds/60);
@@ -69,6 +67,15 @@ startFocus.addEventListener("click",() => {
         if(displaySecond<10) displaySecond="0"+displaySecond; 
         timerDisplay.textContent=displayMinute+":"+displaySecond;
     },1000);
+}
+
+postStart.hidden=true;
+resumeFocus.hidden=true;
+startFocus.addEventListener("click",() => {
+    startFocus.hidden=true;
+    postStart.hidden=false;
+    startStopwatch();
+    
 });
 stopFocus.addEventListener("click",()=>{
     startFocus.hidden=false;
@@ -92,14 +99,7 @@ pauseFocus.addEventListener("click",()=>{
 resumeFocus.addEventListener("click",()=>{
     pauseFocus.hidden=false;
     resumeFocus.hidden=true;
-    timer=setInterval(()=> {
-        totalSeconds++;
-        displayMinute=Math.floor(totalSeconds/60);
-        displaySecond=totalSeconds%60;
-        if(displayMinute<10) displayMinute="0"+displayMinute;
-        if(displaySecond<10) displaySecond="0"+displaySecond; 
-        timerDisplay.textContent=displayMinute+":"+displaySecond;
-    },1000);
+    startStopwatch();
 });
 
 
