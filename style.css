@@ -190,6 +190,57 @@ main {
     display: flex;
     flex-direction: column;
 }
+.timer-buttons{
+    margin:0px;
+    margin-top:15px;
+    padding:0px;
+    text-align: center;
+}
+.timer-button{ 
+    color: maroon;
+    background-color: rgb(252,241,201);
+    padding: 3px;
+    border-color:blanchedalmond;
+    font-size: 19px;
+    border-radius:1cm;
+    width:45px;
+    margin-left:7px;
+}
+.custom-timer{
+    display:flex;
+    margin:0px;
+    padding:0px;
+    gap:3px;
+    color:maroon;
+    font-size: 22px;
+    font-family:"Shadows Into Light Two", cursive;
+    margin-left: 130px;
+    
+}
+.stopwatch-layout #timer-display {
+    margin-top: 50px;
+}
+.custom-timer[hidden] {
+    display: none;
+}
+.custom-timer>p{
+    padding:0px;
+    margin:0px;
+}
+.timer-box{
+    padding:0px;
+    height:20px;
+    width:40px;
+    margin-top:6px;
+    font-size: 20px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-weight: 350;
+    border-color: antiquewhite;
+    text-align: center;
+    background-color:rgb(252,241,201);
+    border-radius: 1.2cm;
+    color:maroon;
+}
 #timer-display{
     width:100%;
     height:90%;
@@ -197,7 +248,6 @@ main {
     margin-left:20px;
     text-align: center;
     font-size:140px;
-    padding-top:55px;
     padding-right:30px;
     color:maroon;
 }

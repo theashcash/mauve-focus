@@ -54,20 +54,34 @@
             </section>
         </section>
 
-        <section class="pomodoro">
+        <section class="pomodoro" id="pomodoro">
             <section class="pomodoro-header">
                 <h3>Pomodoro Timer</h3>
             </section>
             <section class="timer-mode">
-                <button type="button">Stopwatch</button>
-                <button type="button">Timer</button>
+                <button type="button" id="stopwatch-mode">Stopwatch</button>
+                <button type="button" id="timer-mode">Timer</button>
+            </section>
+            <section class="timer-buttons">
+                <button class="timer-button">25</button>
+                <button class="timer-button">50</button>
+                <button class="timer-button">60</button>
+                <button class="timer-button">90</button>
+                <button class="timer-button">120</button>
+            </section>
+            <section  class="custom-timer">
+                <p>Custom:</p>
+                <input type="number" class="timer-box" id="hours-input" min="0">
+                <p>hrs</p>
+                <input type="number" class="timer-box"  id="mins-input" min="0">
+                <p>mins</p>
             </section>
             <span id="timer-display">00:00</span>
             <button id="start-focus" type="button">Start Focus</button>
             <section id="post-start">
-                <button id="pause-focus" type="button">Pause Focus</button>
-                <button id="resume-focus" type="button">Resume Focus</button>
-                <button id="stop-focus" type="button">Stop Focus</button>
+            <button id="pause-focus" type="button">Pause Focus</button>
+            <button id="resume-focus" type="button">Resume Focus</button>
+            <button id="stop-focus" type="button">Stop Focus</button>
             </section>
         </section>
 
