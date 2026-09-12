@@ -45,15 +45,15 @@ let timer;
 let stopWatch;
 let currentTimer;
 let remainingSeconds;
+let customHourValue;
+let customMinValue;
 let currentMode='stopwatch';
+let totalCustomMins=0;
 
-
-let minStudyTime=document.querySelector(".min-time-box");
-let minStudyTimeVal=minStudyTime.querySelector(".time-value");
-let hourStudyTime=document.querySelector(".hour-time-box");
-let hourStudyTimeVal=hourStudyTime.querySelector(".time-value");
-
-
+const minStudyTime=document.querySelector(".min-time-box");
+const minStudyTimeVal=minStudyTime.querySelector(".time-value");
+const hourStudyTime=document.querySelector(".hour-time-box");
+const hourStudyTimeVal=hourStudyTime.querySelector(".time-value");
 const startFocus=document.querySelector("#start-focus");
 const stopFocus=document.querySelector("#stop-focus");
 const pauseFocus=document.querySelector("#pause-focus");
@@ -66,7 +66,35 @@ const customTimer = document.querySelector(".custom-timer");
 const pomodoro = document.querySelector("#pomodoro");
 const timerDisplay=document.querySelector("#timer-display");
 const timerButton = document.querySelectorAll(".timer-button");
+const customHour=document.querySelector("#hours-input");
+const customMin=document.querySelector("#mins-input");
 
+
+timerButtons.hidden = true;
+customTimer.hidden = true;
+pomodoro.classList.add("stopwatch-layout");
+postStart.hidden=true;
+resumeFocus.hidden=true;
+
+
+function getCustomTime(){
+    customHourValue=Number(customHour.value);
+    customMinValue=Number(customMin.value);
+    totalCustomMins=customHourValue*60+customMinValue;
+}
+
+function displayTimer(x){
+    timerDisplay.textContent = x+":00";
+}
+
+for(let button of timerButton){
+    button.addEventListener("click",(event)=>{
+        currentTimer=event.target.textContent;
+        customHour.value = "";
+        customMin.value = "";
+        displayTimer(currentTimer);
+    });
+}
 
 function startStopwatch(){
     stopWatch=setInterval(()=> {
@@ -91,7 +119,6 @@ function startTimer(){
         if(displayMinute < 10) displayMinute = "0" + displayMinute;
         if(displaySecond < 10) displaySecond = "0" + displaySecond;
         timerDisplay.textContent = displayMinute + ":" + displaySecond;
-
     },1000);
 }
 function resumeTimer(){
@@ -108,22 +135,6 @@ function resumeTimer(){
         remainingSeconds--;
     },1000);
 }
-function displayTimer(x){
-    timerDisplay.textContent = x+":00";
-}
-
-for(let button of timerButton){
-    button.addEventListener("click",(event)=>{
-        currentTimer=event.target.textContent;
-        displayTimer(currentTimer);
-    });
-}
-
-timerButtons.hidden = true;
-customTimer.hidden = true;
-pomodoro.classList.add("stopwatch-layout");
-postStart.hidden=true;
-resumeFocus.hidden=true;
 
 stopwatchMode.addEventListener("click", () => {
     currentMode="stopwatch";
@@ -137,49 +148,74 @@ timerMode.addEventListener("click", () => {
     customTimer.hidden = false;
     pomodoro.classList.remove("stopwatch-layout");
 });
+customHour.addEventListener("input", () => {
+    getCustomTime();
 
+    if(totalCustomMins !== 0){
+        displayTimer(totalCustomMins);
+    }
+});
+customMin.addEventListener("input", () => {
+    getCustomTime();
+
+    if(totalCustomMins !== 0){
+        displayTimer(totalCustomMins);
+    }
+});
 startFocus.addEventListener("click",() => {
-    startFocus.hidden=true;
-    postStart.hidden=false;
     if(currentMode === "stopwatch"){
         startStopwatch();
     }
     else if(currentMode === "timer"){
-        startTimer();
-    } 
+        getCustomTime();
+        if(currentTimer === undefined && totalCustomMins===0){
+            alert("Please select a time!");
+            return;
+        }
+        startFocus.hidden=true;
+        postStart.hidden=false;
+        stopwatchMode.disabled=true;
+        timerMode.disabled=true;
+        if(totalCustomMins !== 0) {
+            currentTimer=totalCustomMins;
+            startTimer()
+            customHour.readOnly = true;
+            customMin.readOnly = true;
+        }
+        else {
+            startTimer();
+        }
+        
+    }
 });
 stopFocus.addEventListener("click",()=>{
-    // Show Start button again
     startFocus.hidden=false;
-    // Hide Pause/Resume/Stop buttons
     postStart.hidden=true;
-    // Reset Pause/Resume buttons for the next session
+
+    stopwatchMode.disabled=false;
+    timerMode.disabled=false;
+    
     pauseFocus.hidden=false;
     resumeFocus.hidden=true;
 
-    // STOPWATCH
     if(currentMode === "stopwatch"){
-        // Stop the stopwatch interval
         clearInterval(stopWatch);
-        // Add the time studied in this session
         totalStudyTime += totalSeconds;
-        // Reset stopwatch seconds
         totalSeconds=0;
     }
-    // TIMER
     else if(currentMode === "timer"){
-        // Stop the timer interval
         clearInterval(timer);
-        // Calculate how many seconds were studied
         let studiedSeconds = (Number(currentTimer) * 60) - remainingSeconds;
-        // Add the studied time to total study time
         totalStudyTime += studiedSeconds;
-        // Reset remaining timer
         remainingSeconds=0;
     }
-    // Reset timer display
+    customHour.value = "";
+    customMin.value = "";
+    customHour.readOnly = false;
+    customMin.readOnly = false;
+    totalCustomMins=0;
+    currentTimer=undefined;
     timerDisplay.textContent="00:00";
-    // Update Today's Study Time
     let totalStudyHours=Math.floor(totalStudyTime/3600);
     let totalStudyMin=Math.floor((totalStudyTime%3600)/60);
     if(totalStudyMin<10){
@@ -210,6 +246,8 @@ resumeFocus.addEventListener("click",()=>{
         resumeTimer();
     }
 });
+
+
 
 
 
