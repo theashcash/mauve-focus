@@ -497,3 +497,108 @@ main {
     margin-left: 70px;
     font-size: 14px;
 }
+
+#task-form {
+    width: fit-content;
+    margin: 40px auto;
+    text-align: left;
+    font-family: "Shadows Into Light Two", cursive;
+    color: maroon;
+    font-size: 20px;
+    border: 2px solid bisque;
+    padding:15px;
+    border-radius: 0.3cm;
+    background-color: beige;
+    box-shadow: -1px -1px 9px 0px rgba(0,0,0,0.75);
+}
+
+#task-form label {
+    display: inline-block;
+    width: 30px;
+}
+
+#task-form input {
+    height: 38px;
+    border: 2px solid pink;
+    border-radius: 0.3cm;
+    background-color:lightyellow;
+    color: maroon;
+    font-size: 16px;
+    padding: 5px 10px;
+    margin:3px;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+#task-name {
+    width: 260px;
+}
+
+#task-date,
+#task-time {
+    width: 170px;
+}
+
+#task-form button {
+    display: block;
+    margin: 10px auto 0;
+    padding: 6px 18px;
+    color: maroon;
+    background-color: lightyellow;
+    border: 2px solid peachpuff;
+    border-radius: 0.3cm;
+    font-family: "Shadows Into Light Two", cursive;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+#task-form button:hover,
+#add-task:hover,
+.task-filter > button:hover {
+    transform: translateY(-1px);
+    box-shadow: 2px 3px 5px rgba(0,0,0,0.2);
+}
+.Task {
+    display: flex;
+    align-items: baseline;
+    gap: 5px;
+
+    width: 90%;
+    margin: 8px auto;
+    
+    color: maroon;
+    border: 2px solid bisque;
+    border-radius: 10px;
+    background-color: beige;
+    font-family: "Shadows Into Light Two", cursive;
+}
+
+.Task p {
+    margin: 0;
+}
+
+.Task p:first-of-type {
+    font-size: 19px;
+    font-weight: 550;
+}
+
+.Task p:not(:first-of-type) {
+    font-size: 11px;
+    color: #777;
+}
+.delete-task {
+    margin-left: auto;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 16px;
+    border:1px solid maroon;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-radius: .2cm;
+    box-shadow: 1px 1px 5px -1px rgba(0,0,0,0.75);
+}
+.task-done{
+    text-decoration: line-through;
+    text-decoration-color: maroon;
+}

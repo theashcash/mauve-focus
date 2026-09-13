@@ -37,8 +37,23 @@
                 <button type="button">Today</button>
                 <button type="button">All Tasks</button>
             </section>
+            <form id="task-form" hidden>
+                <label for="task-name">Task:</label>
+                <input type="text" id="task-name" required>
+                <br>
+                <label for="task-date">Date:</label>
+                <input type="date" id="task-date" required>
+                <br>
+                <label for="task-time">Time:</label>
+                <input type="time" id="task-time">
+                <br>
+                <button type="submit">Add Task</button>
+            </form>
+            <section id="task-list">
+            </section>
+                
         </section>
-
+            
         <section class="study-time">
             <h2>Today's Study Time</h2>
             <section class="study-time-display">

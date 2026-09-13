@@ -36,7 +36,88 @@ menuItems[1].textContent=month.substring(0,3);
 menuItems[2].textContent=date;
 menuItems[3].textContent=time;
 
-//timer
+//task 
+const addTaskButton=document.querySelector("#add-task");
+const taskForm=document.querySelector("#task-form");
+const taskList=document.querySelector("#task-list");
+let task={};
+let tasks=[];
+
+
+addTaskButton.addEventListener("click",()=>{
+    taskForm.hidden=false;
+    taskList.hidden=true;
+})
+taskForm.addEventListener("submit",(event)=>{
+    event.preventDefault();
+    taskForm.hidden=true;
+    let taskname=taskForm.querySelector("#task-name").value;
+    let taskdate = taskForm.querySelector("#task-date").value;
+    let tasktime=taskForm.querySelector("#task-time").value;
+    task = {
+        name: taskname,
+        date: taskdate,
+        time: tasktime,
+        completed:false
+    };
+    tasks.push(task);
+    const taskDiv=document.createElement("div");
+    taskDiv.setAttribute("class","Task");
+    const taskCheckbox=document.createElement("input");
+    taskCheckbox.setAttribute("type", "checkbox");
+    const taskName=document.createElement("p");
+    taskName.textContent=taskname;
+    const taskDate=document.createElement("p");
+    const [year, month, day] = taskdate.split("-");
+    taskDate.textContent=`${day}/${month}/${year.slice(2)}`;
+    const deleteButton = document.createElement("button");
+    deleteButton.textContent = "🗑️";
+    deleteButton.classList.add("delete-task");
+    deleteButton.addEventListener("click", (event) => {
+        let index;
+        const taskDiv = event.target.parentElement;
+        const taskName=taskDiv.querySelectorAll("p")[0].textContent;
+        for(let i = 0; i < tasks.length; i++){
+            if(tasks[i].name == taskName){
+                tasks.splice(i, 1);
+                break;
+            }
+        }
+        taskDiv.remove();
+    });
+    taskCheckbox.addEventListener("input",(event)=>{
+        const taskDiv=event.target.parentElement;
+        const taskName=taskDiv.querySelectorAll("p")[0];
+        taskName.classList.add("task-done");
+        for(let task of tasks){
+            if(task.name ==taskName.textContent){
+                task.completed=!task.completed;
+                if(task.completed){
+                    taskName.classList.add("task-done");
+                }
+                else{
+                    taskName.classList.remove("task-done");
+                }
+            }
+        }
+
+    })
+    taskList.appendChild(taskDiv);
+    taskDiv.appendChild(taskCheckbox)
+    taskDiv.appendChild(taskName);
+    taskDiv.appendChild(taskDate);
+    if(tasktime){
+        const taskTime=document.createElement("p");
+        taskTime.textContent=tasktime;
+        taskDiv.appendChild(taskTime);
+    }
+    taskDiv.appendChild(deleteButton);
+    taskForm.reset();
+    taskList.hidden = false;
+
+})
+
+//pomodoro timer 
 let displaySecond;
 let displayMinute;
 let totalSeconds=0;
