@@ -1,6 +1,6 @@
+const now=new Date();
 const days=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
 const months=["January","February","March","April","May","June","July","August","September","October","November","December"];
-const now=new Date();
 const day=days[now.getDay()]; //day.substring(0,3) for Sun formatting
 const month=months[now.getMonth()]; //month.substring(0,3) for Jun Formatting
 const date=now.getDate();
@@ -45,6 +45,15 @@ const allTasks=document.querySelector(".task-filter").querySelectorAll("button")
 
 let tasks=[];
 
+function saveTasks(){
+    localStorage.setItem("tasks",JSON.stringify(tasks));
+}
+
+const savedTasks=localStorage.getItem("tasks"); //savedTasks have the tasks as a json string-intially this can be null therefore we have to check if it is null before parsing it 
+if(savedTasks){
+    tasks=JSON.parse(savedTasks);
+}
+
 displayTasks(tasks);
 addTaskButton.addEventListener("click",()=>{
     taskForm.hidden=false;
@@ -76,6 +85,7 @@ taskForm.addEventListener("submit",(event)=>{
     tasks.push(task);
     taskForm.reset();
     taskList.hidden = false;
+    saveTasks();
     displayTasks(tasks);
 })
 
@@ -133,6 +143,7 @@ function displayTasks(tasksToDisplay){
             for(let i = 0; i < tasks.length; i++){
                 if(tasks[i].name == taskName){
                     tasks.splice(i, 1);
+                    saveTasks();
                     break;
                 }
             }
@@ -150,7 +161,9 @@ function displayTasks(tasksToDisplay){
                     else{
                         taskName.classList.remove("task-done");
                     }
+                    saveTasks();
                 }
+                
             }
         })
         taskList.appendChild(taskDiv);
@@ -166,12 +179,12 @@ function displayTasks(tasksToDisplay){
     }
 }
 
-//pomodoro timer 
-//pomodoro timer 
+
+//pomodoro timer && totalStudytime 
 let displaySecond;
 let displayMinute;
 let totalSeconds = 0;
-let totalStudyTime = 0;
+let totalStudyTime;
 let timer;
 let stopWatch;
 let currentTimer;
@@ -207,6 +220,11 @@ pomodoro.classList.add("stopwatch-layout");
 postStart.hidden = true;
 resumeFocus.hidden = true;
 
+let today = new Date().toISOString().split("T")[0];
+let studyTimes; //object that stores studytimes for each day 
+studyTimes = JSON.parse(localStorage.getItem("StudyTimes")) || {}; //the studyTimes will be stored as a JSON String in localstorage so it has to be parsed 
+totalStudyTime = studyTimes[today] || 0;
+updateStudyTimeDisplay();
 
 function getCustomTime() {
     customHourValue = Number(customHour.value);
@@ -254,6 +272,8 @@ function startTimer() {
         if (remainingSeconds === 0) {
             clearInterval(timer);
             totalStudyTime += Number(currentTimer) * 60;
+            studyTimes[today]=totalStudyTime;
+            localStorage.setItem("StudyTimes",JSON.stringify(studyTimes));
             updateStudyTimeDisplay();
             postStart.hidden = true;
             startFocus.hidden = false;
@@ -291,7 +311,8 @@ function resumeTimer() {
             clearInterval(timer);
 
             totalStudyTime += Number(currentTimer) * 60;
-
+            studyTimes[today]=totalStudyTime;
+            localStorage.setItem("StudyTimes",JSON.stringify(studyTimes));
             updateStudyTimeDisplay();
 
             postStart.hidden = true;
@@ -358,6 +379,7 @@ customMin.addEventListener("input", () => {
 });
 
 function updateStudyTimeDisplay() {
+
     let totalStudyHours =
         Math.floor(totalStudyTime / 3600);
 
@@ -423,6 +445,8 @@ stopFocus.addEventListener("click", () => {
     if(currentMode === "stopwatch"){
         clearInterval(stopWatch);
         totalStudyTime += totalSeconds;
+        studyTimes[today]=totalStudyTime;
+        localStorage.setItem("StudyTimes",JSON.stringify(studyTimes));
         totalSeconds = 0;
     }
     else if(currentMode === "timer"){
@@ -431,6 +455,8 @@ stopFocus.addEventListener("click", () => {
         let studiedSeconds =
             (Number(currentTimer) * 60) - remainingSeconds;
         totalStudyTime += studiedSeconds;
+        studyTimes[today]=totalStudyTime;
+        localStorage.setItem("StudyTimes",JSON.stringify(studyTimes));
         remainingSeconds = 0;
     }
     customHour.value = "";
