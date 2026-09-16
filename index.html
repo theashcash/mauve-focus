@@ -106,10 +106,23 @@
 
         <section class="countdowns">
             <section class="day-counter">
-
                 <section class="countdown-header">
                     <h2>Countdowns</h2>
-                    <button>+ Event</button>
+                    <button id="addEvent" type="button">+ Event</button>
+                </section>
+                <section>
+                    <form id="countdown-form" hidden>
+                        <label for="event-name">Event:</label>
+                        <input type="text" id="event-name" required>
+                        <br>
+                        <label for="event-date">Date:</label>
+                        <input type="date" id="event-date" required>
+                        <br>
+                        <button type="submit">Add Countdown</button>
+                    </form>
+                    <section id="countdown-list">
+
+                    </section>
                 </section>
 
             </section>

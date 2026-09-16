@@ -490,3 +490,88 @@ resumeFocus.addEventListener("click", () => {
         resumeTimer();
     }
 });
+
+//countdown 
+const addEvent=document.querySelector("#addEvent");
+const countdownForm=document.querySelector("#countdown-form");
+const countdownList=document.querySelector("#countdown-list");
+let events=[];
+
+function saveEvents(){
+    localStorage.setItem("events", JSON.stringify(events));
+}
+
+function daysBetween(startDate,endDate){
+    let timeBetween=endDate-startDate;
+    let daysBetween=Math.ceil(timeBetween/(1000*3600*24));
+    return daysBetween;
+}
+function displayCountdowns(countdownsToDisplay){
+    countdownList.innerHTML="";
+    const sortedCountdowns = [...countdownsToDisplay];
+    sortedCountdowns.sort((a,b)=>{
+        return new Date(a.date) - new Date(b.date)});
+    for(let event of sortedCountdowns){
+        //creating div 
+        const eventDiv=document.createElement("div");
+        eventDiv.setAttribute("class","Event");
+        //giving event name
+        const eventName=document.createElement("p");
+        eventName.textContent=event.name;
+        //finding days between
+        let eventDate=new Date(event.date);
+        let today=new Date();
+        const daysLeft=daysBetween(today,eventDate);
+        //displaying days between
+        const countdown=document.createElement("p");
+        countdown.textContent=daysLeft+" days to go.";
+        //creating delete button
+        const deleteButton = document.createElement("button");
+        deleteButton.textContent = "🗑️";
+        deleteButton.classList.add("delete-event");
+        deleteButton.addEventListener("click", (event) => {
+            const eventDiv = event.target.parentElement;
+            const eventName=eventDiv.querySelectorAll("p")[0].textContent;
+            for(let i = 0; i < events.length; i++){
+                if(events[i].name == eventName){
+                    events.splice(i, 1);
+                    saveEvents();
+                    break;
+                }
+            }
+            eventDiv.remove();
+        });
+        countdownList.appendChild(eventDiv);
+        eventDiv.appendChild(eventName);
+        eventDiv.appendChild(countdown);
+        eventDiv.appendChild(deleteButton);
+    }
+}
+
+let savedEvents=localStorage.getItem("events");
+if(savedEvents){
+    events=JSON.parse(localStorage.getItem("events"));
+}
+displayCountdowns(events);
+
+addEvent.addEventListener("click",()=>{
+    countdownForm.hidden=false;
+    countdownList.hidden=true;
+})
+
+countdownForm.addEventListener("submit",(event)=>{
+    event.preventDefault();
+    countdownList.hidden=false;
+    let eventName=document.querySelector("#event-name").value;
+    let eventDate=document.querySelector("#event-date").value;
+    let newEvent={
+        name:eventName,
+        date:eventDate
+    };
+    events.push(newEvent);
+    countdownForm.reset();
+    countdownForm.hidden=true;
+    saveEvents();
+    displayCountdowns(events);
+});
+

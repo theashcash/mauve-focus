@@ -602,3 +602,101 @@ main {
     text-decoration: line-through;
     text-decoration-color: maroon;
 }
+
+#countdown-form {
+    width: fit-content;
+    margin: 5px auto;
+    text-align: left;
+    font-family: "Shadows Into Light Two", cursive;
+    color: maroon;
+    font-size: 16px;
+    border: 2px solid bisque;
+    padding: 8px;
+    border-radius: 0.25cm;
+    background-color: beige;
+    box-shadow: -1px -1px 6px 0px rgba(0,0,0,0.5);
+}
+
+#countdown-form label {
+    display: inline-block;
+    width: 42px;
+}
+
+#countdown-form input {
+    height: 28px;
+    border: 2px solid pink;
+    border-radius: 0.25cm;
+    background-color: lightyellow;
+    color: maroon;
+    font-size: 14px;
+    padding: 3px 7px;
+    margin: 2px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#event-name {
+    width: 150px;
+}
+
+#event-date {
+    width: 145px;
+}
+
+#countdown-form button {
+    display: block;
+    margin: 6px auto 0;
+    padding: 4px 12px;
+    color: maroon;
+    background-color: lightyellow;
+    border: 2px solid peachpuff;
+    border-radius: 0.25cm;
+    font-family: "Shadows Into Light Two", cursive;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+#countdown-form button:hover {
+    transform: translateY(-1px);
+    box-shadow: 1px 2px 4px rgba(0,0,0,0.2);
+}
+.Event {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+
+    width: 90%;
+    margin: 3px auto;
+
+    color: maroon;
+    border: 2px solid bisque;
+    border-radius: 10px;
+    background-color: beige;
+    font-family: "Shadows Into Light Two", cursive;
+    padding: 3px 5px;
+}
+
+.Event p {
+    margin: 0;
+}
+
+.Event p:first-of-type {
+    font-size: 16px;
+    font-weight: 550;
+}
+
+.Event p:not(:first-of-type) {
+    font-size: 15px;
+    color: #777;
+}
+
+.delete-event {
+    margin-left: auto;
+    border: 1px solid maroon;
+    background: none;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 3px 5px;
+    border-radius: .2cm;
+    box-shadow: 1px 1px 5px -1px rgba(0,0,0,0.75);
+}
