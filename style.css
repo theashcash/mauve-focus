@@ -116,7 +116,10 @@ main {
     font-size:16px;
     margin:0;
 }
-
+#task-list {
+    max-height: 320px;
+    overflow-y: auto;
+}
 .study-time{
     width:480px;
 }
@@ -659,6 +662,10 @@ main {
 #countdown-form button:hover {
     transform: translateY(-1px);
     box-shadow: 1px 2px 4px rgba(0,0,0,0.2);
+}
+#countdown-list {
+    max-height: 125px;
+    overflow-y: auto;
 }
 .Event {
     display: flex;

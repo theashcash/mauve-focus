@@ -503,7 +503,7 @@ function saveEvents(){
 
 function daysBetween(startDate,endDate){
     let timeBetween=endDate-startDate;
-    let daysBetween=Math.ceil(timeBetween/(1000*3600*24));
+    let daysBetween=timeBetween/(1000*3600*24);
     return daysBetween;
 }
 function displayCountdowns(countdownsToDisplay){
@@ -511,40 +511,56 @@ function displayCountdowns(countdownsToDisplay){
     const sortedCountdowns = [...countdownsToDisplay];
     sortedCountdowns.sort((a,b)=>{
         return new Date(a.date) - new Date(b.date)});
-    for(let event of sortedCountdowns){
+    for (let countdownEvent of sortedCountdowns){
         //creating div 
+        
+
         const eventDiv=document.createElement("div");
         eventDiv.setAttribute("class","Event");
         //giving event name
         const eventName=document.createElement("p");
-        eventName.textContent=event.name;
+        eventName.textContent=countdownEvent.name;
         //finding days between
-        let eventDate=new Date(event.date);
+        let eventDate=new Date(countdownEvent.date);
+        eventDate.setHours(0,0,0,0);
         let today=new Date();
+        today.setHours(0, 0, 0, 0);
         const daysLeft=daysBetween(today,eventDate);
-        //displaying days between
-        const countdown=document.createElement("p");
-        countdown.textContent=daysLeft+" days to go.";
-        //creating delete button
-        const deleteButton = document.createElement("button");
-        deleteButton.textContent = "🗑️";
-        deleteButton.classList.add("delete-event");
-        deleteButton.addEventListener("click", (event) => {
-            const eventDiv = event.target.parentElement;
-            const eventName=eventDiv.querySelectorAll("p")[0].textContent;
-            for(let i = 0; i < events.length; i++){
-                if(events[i].name == eventName){
-                    events.splice(i, 1);
-                    saveEvents();
-                    break;
-                }
+        if (daysLeft < 0){
+            const index = events.findIndex((savedEvent) => {
+                return savedEvent.name === countdownEvent.name;
+            });
+
+            if (index !== -1) {
+                events.splice(index, 1);
+                saveEvents();
             }
-            eventDiv.remove();
-        });
-        countdownList.appendChild(eventDiv);
-        eventDiv.appendChild(eventName);
-        eventDiv.appendChild(countdown);
-        eventDiv.appendChild(deleteButton);
+        }
+        //displaying days between
+        else{
+            const countdown=document.createElement("p");
+            daysLeft===1?countdown.textContent=daysLeft+" day to go.":(daysLeft===0?countdown.textContent="GoodLuck!":countdown.textContent=daysLeft+" days to go.");
+            //creating delete button
+            const deleteButton = document.createElement("button");
+            deleteButton.textContent = "🗑️";
+            deleteButton.classList.add("delete-event");
+            deleteButton.addEventListener("click", (event) => {
+                const eventDiv = event.target.parentElement;
+                const eventName=eventDiv.querySelectorAll("p")[0].textContent;
+                for(let i = 0; i < events.length; i++){
+                    if(events[i].name == eventName){
+                        events.splice(i, 1);
+                        saveEvents();
+                        break;
+                    }
+                }
+                eventDiv.remove();
+            });
+            countdownList.appendChild(eventDiv);
+            eventDiv.appendChild(eventName);
+            eventDiv.appendChild(countdown);
+            eventDiv.appendChild(deleteButton);
+        }
     }
 }
 
