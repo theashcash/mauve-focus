@@ -139,14 +139,21 @@
         </section>
 
        <section class="projects">
-            <section class="projects-header">
+            <section class="project-header">
                 <h2>Projects</h2>
-                <button type="button">+Add Project</button>
+                <button id="add-project" type="button">+ Project</button>
             </section>
-            <section class="project-list">
-            </section>
+            <form id="project-form" hidden>
+                <label for="project-name">Name:</label>
+                <input type="text" id="project-name" required>
+                <br>
+                <label for="project-description">Description:</label>
+                <input type="text" id="project-description" required>
+                <br>
+                <button type="submit">Add Project</button>
+            </form>
+            <section id="project-list"></section>
         </section>
-        
     </main>
     <script src="./script.js"></script>
 </body>

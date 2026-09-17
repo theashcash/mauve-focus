@@ -513,8 +513,6 @@ function displayCountdowns(countdownsToDisplay){
         return new Date(a.date) - new Date(b.date)});
     for (let countdownEvent of sortedCountdowns){
         //creating div 
-        
-
         const eventDiv=document.createElement("div");
         eventDiv.setAttribute("class","Event");
         //giving event name
@@ -591,3 +589,98 @@ countdownForm.addEventListener("submit",(event)=>{
     displayCountdowns(events);
 });
 
+// Projects
+
+let projects = [];
+
+function saveProjects() {
+    localStorage.setItem("projects", JSON.stringify(projects));
+}
+
+const savedProjects = localStorage.getItem("projects");
+
+if (savedProjects) {
+    projects = JSON.parse(savedProjects);
+}
+
+const addProject = document.querySelector("#add-project");
+const projectForm = document.querySelector("#project-form");
+const projectList = document.querySelector("#project-list");
+
+addProject.addEventListener("click", () => {
+    projectForm.hidden = false;
+    projectList.hidden = true;
+});
+projectForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    let projectName = projectForm.querySelector("#project-name").value;
+    let projectDescription = projectForm.querySelector("#project-description").value;
+    const project = {
+        name: projectName,
+        description: projectDescription,
+        status: "Yet to Start"
+    };
+    projects.push(project);
+    projectForm.reset();
+    projectForm.hidden = true;
+    projectList.hidden = false;
+    saveProjects();
+    displayProjects(projects);
+});
+function displayProjects(projectsToDisplay) {
+    projectList.innerHTML = "";
+    for (let project of projectsToDisplay) {
+
+        // Creating project div
+        const projectDiv = document.createElement("div");
+        projectDiv.classList.add("Project");
+        // Creating project name
+        const projectName = document.createElement("p");
+        projectName.textContent = project.name;
+        // Creating project description
+        const projectDescription = document.createElement("p");
+        projectDescription.textContent = project.description;
+        // Creating status dropdown
+        const statusSelect = document.createElement("select");
+        const statuses = [
+            "Yet to Start",
+            "In Progress",
+            "Completed",
+            "On Hold"
+        ];
+        for (let status of statuses) {
+            const option = document.createElement("option");
+            option.textContent = status;
+            option.value = status;
+            statusSelect.appendChild(option);
+        }
+        // Set current project status in dropdown
+        statusSelect.value = project.status;
+        statusSelect.addEventListener("change", () => {
+            project.status = statusSelect.value;
+            saveProjects();
+        });
+        const deleteButton = document.createElement("button");
+        deleteButton.textContent = "🗑️";
+        deleteButton.classList.add("delete-project");
+        deleteButton.addEventListener("click", (event) => {
+            const projectDiv = event.target.parentElement;
+            const projectName = projectDiv.querySelectorAll("p")[0].textContent;
+            for (let i = 0; i < projects.length; i++) {
+                if (projects[i].name === projectName) {
+                    projects.splice(i, 1);
+                    saveProjects();
+                    break;
+                }
+            }
+            projectDiv.remove();
+        });
+        // Adding everything to the project
+        projectList.appendChild(projectDiv);
+        projectDiv.appendChild(projectName);
+        projectDiv.appendChild(projectDescription);
+        projectDiv.appendChild(statusSelect);
+        projectDiv.appendChild(deleteButton);
+    }
+}
+displayProjects(projects);
