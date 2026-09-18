@@ -129,12 +129,21 @@
             <section class="progress">
                 <section class="progress-header">
                     <h3>Progress Counter</h3>
-                    <button type="button">+ Progress Counter</button>
+                    <button type="button" id="add-progress">+ Progress Counter</button>
                 </section>
-                <div class="activities">
-                    <p>Leetcode Questions Counter:</p>
-                    <p>Projects Counter:</p>
-                </div>
+                <form id="progress-form" hidden>
+                    <label for="progress-name">Name:</label>
+                    <input type="text" id="progress-name" required>
+                    <br>
+                    <label for="starting-progress">Current:</label>
+                    <input type="number" id="starting-progress" min="0">
+                    <br>
+                    <button type="submit">Add Counter</button>
+
+                </form>
+                <section class="progress-list">
+
+                </section>
             </section>
         </section>
 

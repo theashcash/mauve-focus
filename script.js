@@ -684,3 +684,89 @@ function displayProjects(projectsToDisplay) {
     }
 }
 displayProjects(projects);
+
+// Progress Counters
+let progressCounters = [];
+function saveProgressCounters() {
+    localStorage.setItem("progressCounters", JSON.stringify(progressCounters));
+}
+const savedProgressCounters = localStorage.getItem("progressCounters");
+if (savedProgressCounters) {
+    progressCounters = JSON.parse(savedProgressCounters);
+}
+const addProgress = document.querySelector("#add-progress");
+const progressForm = document.querySelector("#progress-form");
+const progressList = document.querySelector(".progress-list");
+
+addProgress.addEventListener("click", () => {
+    progressForm.hidden = false;
+    progressList.hidden = true;
+});
+progressForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    let progressName = progressForm.querySelector("#progress-name").value;
+    let startingProgress = progressForm.querySelector("#starting-progress").value;
+    startingProgress = startingProgress === "" ? 0 : Number(startingProgress);
+    const progressCounter = {
+        name: progressName,
+        count: startingProgress
+    };
+    progressCounters.push(progressCounter);
+    progressForm.reset();
+    progressForm.hidden = true;
+    progressList.hidden = false;
+    saveProgressCounters();
+    displayProgressCounters(progressCounters);
+});
+function displayProgressCounters(countersToDisplay) {
+    progressList.innerHTML = "";
+
+    for (let counter of countersToDisplay) {
+        const counterDiv = document.createElement("div");
+        counterDiv.classList.add("progress-counter");
+        const counterName = document.createElement("p");
+        counterName.textContent = counter.name;
+        const countDisplay = document.createElement("p");
+        countDisplay.textContent = counter.count;
+        const minusButton = document.createElement("button");
+        minusButton.textContent = "-";
+
+        const plusButton = document.createElement("button");
+        plusButton.textContent = "+";
+
+        minusButton.addEventListener("click", () => {
+            if (counter.count > 0) {
+                counter.count--;
+                countDisplay.textContent = counter.count;
+                saveProgressCounters();
+            }
+        });
+
+        plusButton.addEventListener("click", () => {
+            counter.count++;
+            countDisplay.textContent = counter.count;
+            saveProgressCounters();
+        });
+        const deleteButton = document.createElement("button");
+        deleteButton.textContent = "🗑️";
+        deleteButton.classList.add("delete-progress");
+
+        deleteButton.addEventListener("click", () => {
+            const index = progressCounters.findIndex((savedCounter) => {
+                return savedCounter.name === counter.name;
+            });
+            if (index !== -1) {
+                progressCounters.splice(index, 1);
+                saveProgressCounters();
+            }
+            counterDiv.remove();
+        });
+        counterDiv.appendChild(counterName);
+        counterDiv.appendChild(minusButton);
+        counterDiv.appendChild(countDisplay);
+        counterDiv.appendChild(plusButton);
+        counterDiv.appendChild(deleteButton);
+        progressList.appendChild(counterDiv);
+    }
+}
+displayProgressCounters(progressCounters);
