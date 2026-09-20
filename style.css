@@ -43,16 +43,6 @@ header {
     padding:0px;
     margin-top:5px;
 }
-#mode-btn{
-    margin-top:1px;
-    padding:1.5px;
-    width: 88px;
-    height:25px;
-    color: rgb(252,241,201);
-    background-color:maroon;
-    border-radius: 0.2cm;
-    border-color: peachpuff;
-}
 
 .welcome h3{
     font-family: "Architects Daughter", cursive;

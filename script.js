@@ -87,6 +87,7 @@ taskForm.addEventListener("submit",(event)=>{
     let taskdate = taskForm.querySelector("#task-date").value;
     let tasktime=taskForm.querySelector("#task-time").value;
     const task = {
+        id: crypto.randomUUID(),
         name: taskname,
         date: taskdate,
         time: tasktime,
@@ -149,21 +150,16 @@ function displayTasks(tasksToDisplay){
         deleteButton.classList.add("delete-task");
         deleteButton.addEventListener("click", (event) => {
             const taskDiv = event.target.parentElement;
-            const taskName=taskDiv.querySelectorAll("p")[0].textContent;
-            for(let i = 0; i < tasks.length; i++){
-                if(tasks[i].name == taskName){
-                    tasks.splice(i, 1);
-                    saveTasks();
-                    break;
-                }
+            const index = tasks.findIndex((savedTask) => {
+                return savedTask.id === task.id;
+            });
+            if(index !== -1){
+                tasks.splice(index, 1);
+                saveTasks();
             }
             taskDiv.remove();
         });
         taskCheckbox.addEventListener("input",(event)=>{
-            const taskDiv=event.target.parentElement;
-            const taskName=taskDiv.querySelectorAll("p")[0];
-            for(let task of tasks){
-                if(task.name ==taskName.textContent){
                     task.completed=!task.completed;
                     if(task.completed){
                         taskName.classList.add("task-done");
@@ -172,9 +168,6 @@ function displayTasks(tasksToDisplay){
                         taskName.classList.remove("task-done");
                     }
                     saveTasks();
-                }
-                
-            }
         })
         taskList.appendChild(taskDiv);
         taskDiv.appendChild(taskCheckbox)
@@ -536,7 +529,7 @@ function displayCountdowns(countdownsToDisplay){
         const daysLeft=daysBetween(today,eventDate);
         if (daysLeft < 0){
             const index = events.findIndex((savedEvent) => {
-                return savedEvent.name === countdownEvent.name;
+                return savedEvent.id === countdownEvent.id;
             });
 
             if (index !== -1) {
@@ -554,16 +547,15 @@ function displayCountdowns(countdownsToDisplay){
             deleteButton.classList.add("delete-event");
             deleteButton.addEventListener("click", (event) => {
                 const eventDiv = event.target.parentElement;
-                const eventName=eventDiv.querySelectorAll("p")[0].textContent;
-                for(let i = 0; i < events.length; i++){
-                    if(events[i].name == eventName){
-                        events.splice(i, 1);
-                        saveEvents();
-                        break;
-                    }
+                const index = events.findIndex((savedEvent) => {
+                    return savedEvent.id === countdownEvent.id;
+                });
+                if(index !== -1){
+                    events.splice(index, 1);
+                    saveEvents();
                 }
-                eventDiv.remove();
-            });
+                    eventDiv.remove();
+                });
             countdownList.appendChild(eventDiv);
             eventDiv.appendChild(eventName);
             eventDiv.appendChild(countdown);
@@ -589,6 +581,7 @@ countdownForm.addEventListener("submit",(event)=>{
     let eventName=document.querySelector("#event-name").value;
     let eventDate=document.querySelector("#event-date").value;
     let newEvent={
+        id : crypto.randomUUID(),
         name:eventName,
         date:eventDate
     };
@@ -626,6 +619,7 @@ projectForm.addEventListener("submit", (event) => {
     let projectName = projectForm.querySelector("#project-name").value;
     let projectDescription = projectForm.querySelector("#project-description").value;
     const project = {
+        id : crypto.randomUUID(),
         name: projectName,
         description: projectDescription,
         status: "Yet to Start"
@@ -640,7 +634,6 @@ projectForm.addEventListener("submit", (event) => {
 function displayProjects(projectsToDisplay) {
     projectList.innerHTML = "";
     for (let project of projectsToDisplay) {
-
         // Creating project div
         const projectDiv = document.createElement("div");
         projectDiv.classList.add("Project");
@@ -675,13 +668,12 @@ function displayProjects(projectsToDisplay) {
         deleteButton.classList.add("delete-project");
         deleteButton.addEventListener("click", (event) => {
             const projectDiv = event.target.parentElement;
-            const projectName = projectDiv.querySelectorAll("p")[0].textContent;
-            for (let i = 0; i < projects.length; i++) {
-                if (projects[i].name === projectName) {
-                    projects.splice(i, 1);
-                    saveProjects();
-                    break;
-                }
+            const index=projects.findIndex((savedProject)=>{
+                return project.id==savedProject.id;
+            })
+            if(index!=-1){
+                projects.splice(index,1);
+                saveProjects();
             }
             projectDiv.remove();
         });
@@ -718,6 +710,7 @@ progressForm.addEventListener("submit", (event) => {
     let startingProgress = progressForm.querySelector("#starting-progress").value;
     startingProgress = startingProgress === "" ? 0 : Number(startingProgress);
     const progressCounter = {
+        id : crypto.randomUUID(),
         name: progressName,
         count: startingProgress
     };
@@ -763,7 +756,7 @@ function displayProgressCounters(countersToDisplay) {
 
         deleteButton.addEventListener("click", () => {
             const index = progressCounters.findIndex((savedCounter) => {
-                return savedCounter.name === counter.name;
+                return savedCounter.id === counter.id;
             });
             if (index !== -1) {
                 progressCounters.splice(index, 1);
