@@ -1,41 +1,51 @@
-const now=new Date();
+//header content 
 const days=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
 const months=["January","February","March","April","May","June","July","August","September","October","November","December"];
-const day=days[now.getDay()]; //day.substring(0,3) for Sun formatting
-const month=months[now.getMonth()]; //month.substring(0,3) for Jun Formatting
-const date=now.getDate();
-const hour=now.getHours();
-const minute=now.getMinutes();
-let time;
-let displayHour=(hour+12)%12; //conversion to 12 hour clock
-if(displayHour==0) displayHour=12;
-if(hour>=12){ 
-    if(minute<10){
-        time=displayHour+":"+"0"+minute+" PM";
+function updateClock(){
+    const now=new Date();
+    const day=days[now.getDay()]; //day.substring(0,3) for Sun formatting
+    const month=months[now.getMonth()]; //month.substring(0,3) for Jun Formatting
+    const date=now.getDate();
+    const hour=now.getHours();
+    const minute=now.getMinutes();
+    let time;
+    let displayHour=(hour+12)%12; //conversion to 12 hour clock
+    if(displayHour==0) displayHour=12;
+    if(hour>=12){ 
+        if(minute<10){
+            time=displayHour+":"+"0"+minute+" PM";
+        }
+        else{
+            time=displayHour+":"+minute+" PM";
+        }
+        
     }
-    else{
-        time=displayHour+":"+minute+" PM";
+    else {
+        if(minute<10){
+            time=displayHour+":"+"0"+minute+" AM";
+        }
+        else{
+            time=displayHour+":"+minute+" AM";
+        }
     }
-    
+    const info=document.querySelector(".info");
+    const menuItems=info.querySelectorAll("p"); //[day,month,date,time AM/PM]
+    menuItems[0].textContent=day.substring(0,3);
+    menuItems[1].textContent=month.substring(0,3);
+    menuItems[2].textContent=date;
+    menuItems[3].textContent=time;
 }
-else {
-    
-    if(minute<10){
-        time=displayHour+":"+"0"+minute+" AM";
-    }
-    else{
-        time=displayHour+":"+minute+" AM";
-    }
+updateClock();
+setInterval(updateClock,1000);
+
+function getToday(){
+    const now=new Date();
+    let date=String(now.getDate()).padStart(2,"0");
+    let month=String(now.getMonth()+1).padStart(2,"0");
+    let year=now.getFullYear();
+
+    return `${year}-${month}-${date}`
 }
-
-//header content 
-const info=document.querySelector(".info");
-const menuItems=info.querySelectorAll("p"); //[day,month,date,time AM/PM]
-menuItems[0].textContent=day.substring(0,3);
-menuItems[1].textContent=month.substring(0,3);
-menuItems[2].textContent=date;
-menuItems[3].textContent=time;
-
 //task 
 const addTaskButton=document.querySelector("#add-task");
 const taskForm=document.querySelector("#task-form");
@@ -61,7 +71,7 @@ addTaskButton.addEventListener("click",()=>{
 })
 
 todaysTask.addEventListener("click",()=>{
-    let today = new Date().toISOString().split("T")[0];
+    let today = getToday();
     let todaysTasks=tasks.filter((task)=> task.date===today);
     displayTasks(todaysTasks);
 })
@@ -220,7 +230,7 @@ pomodoro.classList.add("stopwatch-layout");
 postStart.hidden = true;
 resumeFocus.hidden = true;
 
-let today = new Date().toISOString().split("T")[0];
+let today = getToday();
 let studyTimes; //object that stores studytimes for each day 
 studyTimes = JSON.parse(localStorage.getItem("StudyTimes")) || {}; //the studyTimes will be stored as a JSON String in localstorage so it has to be parsed 
 totalStudyTime = studyTimes[today] || 0;
