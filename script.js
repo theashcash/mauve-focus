@@ -773,3 +773,59 @@ function displayProgressCounters(countersToDisplay) {
     }
 }
 displayProgressCounters(progressCounters);
+
+//heatmap
+function getLevel(seconds){
+    if(seconds===0) return 0;
+    else if(seconds <= 3600 ) return 1;
+    else if( seconds <= 10800 ) return 2; 
+    else if(seconds <= 14400 ) return 3;
+    else return 4;
+}
+function formatDate(date) {
+    let day = String(date.getDate()).padStart(2, "0");
+    let month = String(date.getMonth() + 1).padStart(2, "0");
+    let year = date.getFullYear();
+
+    return `${year}-${month}-${day}`;
+}
+function last365Days(){
+    let dates = [];
+    let date = new Date();
+    for(let i = 0; i < 365; i++){
+        dates[i] = formatDate(date);
+        date.setDate(date.getDate() - 1);
+    }
+    return dates;
+}
+function getStudyTime(date) {
+    return studyTimes[date] || 0;
+}
+function getDayData(date) {
+    const studytime=getStudyTime(date);
+    const level=getLevel(studytime);
+    return {
+    date: date,
+    studyTime: studytime,
+    level: level
+    };
+}
+function createHeatmapDay(date) {
+    const dayData = getDayData(date);
+    const square = document.createElement("div");
+    square.classList.add(`level-${dayData.level}`);
+    square.title = `${date} - ${dayData.studyTime} seconds`;
+    const day = new Date(date);
+    square.style.gridRow = day.getDay() + 1;
+    return square;
+}
+const heatmap = document.querySelector(".heatmap-grid");
+const dates = last365Days().reverse();
+
+for(let i = 0; i < dates.length; i++){
+    const date = dates[i];
+    const square = createHeatmapDay(date);
+    const day = new Date(date);
+    square.style.gridColumn = Math.floor((i + day.getDay()) / 7) + 1;
+    heatmap.appendChild(square);
+}
