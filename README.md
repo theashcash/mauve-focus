@@ -1,74 +1,81 @@
-# Focus Dashboard
+# Mauve Focus
 
-A personal productivity dashboard that I'm building from scratch for myself.
+A personal productivity and study dashboard built from scratch using
+HTML, CSS, and vanilla JavaScript.
 
-## About
+## Features
 
-This project is my attempt to build a productivity/study dashboard that I can actually use in my day-to-day life.
-
-I'm building this project from scratch using HTML, CSS, and JavaScript while learning web development.
-
-This isn't intended to be a finished project from the beginning. I want to continuously build, improve, and update it as I learn new concepts and technologies.
-
-New features, improvements, and changes will be added over time as I learn.
-
-## Current Goals
-
-The dashboard is intended to eventually include features such as:
-
-- [ ] Daily and long-term task management
-- [ ] Tasks with due dates
-- [ ] Study time tracking
-- [ ] Stopwatch
-- [ ] Pomodoro timer
-- [ ] Timer completion alarm/audio
-- [ ] GitHub/LeetCode-style study activity heatmap
-- [ ] LeetCode problem counter
-- [ ] Project progress tracking
-- [ ] Event/exam countdowns
-- [ ] Responsive design for mobile and desktop
-- [ ] Persistent data storage
-
-More features will be added as the project develops.
+- Daily and long-term task management
+- Task due dates
+- Daily study time tracking
+- Pomodoro timer
+- Stopwatch mode
+- Countdown timer
+- Study progress heatmap
+- LeetCode / progress counter
+- Project tracker
+- Event countdowns
+- LocalStorage persistence
+- Responsive interface
 
 ## Tech Stack
-
-Currently:
 
 - HTML
 - CSS
 - JavaScript
+- LocalStorage
+- Git & GitHub
 
-The technology used for this project may change as I learn and improve the application.
+## Current Status
 
-## Development Philosophy
+🚧 **MVP Complete — Development Paused**
 
-I'm intentionally building this project from scratch rather than following a complete tutorial.
+The core vanilla JavaScript version of Mauve Focus is complete and deployed
+using GitHub Pages.
 
-The goal is to use this project as a way to learn by building.
+The project is currently being put on hold while I learn more advanced
+JavaScript, backend development, databases, authentication, and APIs.
 
-I'll start with the fundamentals and gradually introduce new concepts as I learn them.
+## What I Learned
 
-The project will therefore evolve alongside my learning journey.
+Building Mauve Focus helped me practice:
 
-## Progress
+- DOM manipulation
+- Event listeners
+- Functions and callbacks
+- Arrays and objects
+- Dynamic HTML generation
+- Form handling
+- Timers and intervals
+- LocalStorage
+- JSON parsing and stringifying
+- UUID-based object identity
+- State management
+- Git and GitHub
+- Deploying a static website with GitHub Pages
 
-This project is a work in progress.
+## Future Plans
 
-The current version is only the beginning, and the structure, design, and features will continue to change as I learn.
+When development resumes, I may add:
 
-## Future
-
-Eventually, I'd like to turn this into something that I can genuinely use every day, rather than keeping it as a simple practice project.
-
-Possible future additions include:
-
-- Better data persistence
-- More detailed study statistics
-- GitHub/LeetCode integrations
-- User accounts and data synchronization
-- Mobile/app version
 - Backend and database
-- Other features based on what I find useful
+- User authentication
+- Cloud data synchronization
+- REST API
+- Better data analytics
+- Improved mobile experience
+- PWA support
+- GitHub / LeetCode API integration
+- More advanced study statistics
 
-These are long-term ideas and are not necessarily part of the current version.
+## Development
+
+Run the project locally using VS Code and Live Server.
+
+The deployed version is available on GitHub Pages.
+
+## Status
+
+**Version:** Vanilla JS MVP  
+**Status:** Complete / On Hold  
+**Deployment:** GitHub Pages
