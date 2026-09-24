@@ -789,12 +789,13 @@ function formatDate(date) {
 
     return `${year}-${month}-${day}`;
 }
-function last365Days(){
+function last5Months(){
     let dates = [];
     let date = new Date();
-    for(let i = 0; i < 365; i++){
-        dates[i] = formatDate(date);
-        date.setDate(date.getDate() - 1);
+    date.setMonth(date.getMonth() - 5);
+    while(date <= new Date()){
+        dates.push(formatDate(date));
+        date.setDate(date.getDate() + 1);
     }
     return dates;
 }
@@ -820,12 +821,37 @@ function createHeatmapDay(date) {
     return square;
 }
 const heatmap = document.querySelector(".heatmap-grid");
-const dates = last365Days().reverse();
+const dates = last5Months();
+const startDay = new Date(dates[0]).getDay();
 
 for(let i = 0; i < dates.length; i++){
     const date = dates[i];
     const square = createHeatmapDay(date);
-    const day = new Date(date);
-    square.style.gridColumn = Math.floor((i + day.getDay()) / 7) + 1;
+    square.style.gridColumn = Math.floor((i + startDay) / 7) + 1;
     heatmap.appendChild(square);
+}
+
+const monthNames = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+const monthsRow = document.querySelector(".heatmap-months");
+const totalCols = Math.floor((dates.length - 1 + startDay) / 7) + 1;
+
+let monthStarts = [];
+let lastMonth = -1;
+for(let i = 0; i < dates.length; i++){
+    const month = Number(dates[i].slice(5, 7)) - 1; 
+    if(month !== lastMonth){
+        monthStarts.push({ name: monthNames[month], col: Math.floor((i + startDay) / 7) });
+        lastMonth = month;
+    }
+}
+
+
+for(let m = 0; m < monthStarts.length; m++){
+    const startCol = monthStarts[m].col;
+    const endCol = (m + 1 < monthStarts.length) ? monthStarts[m + 1].col : totalCols;
+    if(endCol - startCol < 2) continue;
+    const label = document.createElement("span");
+    label.textContent = monthStarts[m].name;
+    label.style.gridColumn = `${startCol + 1} / ${endCol + 1}`;
+    monthsRow.appendChild(label);
 }
