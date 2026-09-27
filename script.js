@@ -192,6 +192,8 @@ let timer;
 let stopWatch;
 let currentTimer;
 let remainingSeconds;
+let stopwatchStartTime; // timestamp (ms) the stopwatch's current run began
+let timerEndTime;       // timestamp (ms) the countdown should hit zero
 let customHourValue;
 let customMinValue;
 let currentMode = 'stopwatch';
@@ -253,100 +255,80 @@ for (let button of timerButton) {
 
 
 function startStopwatch() {
-    stopWatch = setInterval(() => {
-        totalSeconds++;
-        displayMinute = Math.floor(totalSeconds / 60);
-        displaySecond = totalSeconds % 60;
-        if (displayMinute < 10) {
-            displayMinute = "0" + displayMinute;
-        }
-        if (displaySecond < 10) {
-            displaySecond = "0" + displaySecond;
-        }
-        timerDisplay.textContent = displayMinute + ":" + displaySecond;
+    // if totalSeconds already has a value (resuming after pause), this
+    // shifts the "start" back in time so elapsed-time math picks up
+    // exactly where it left off, instead of restarting from 0
+    stopwatchStartTime = Date.now() - totalSeconds * 1000;
+    stopWatch = setInterval(updateStopwatch, 1000);
+    updateStopwatch(); // paint immediately instead of waiting for the first tick
+}
 
-    }, 1000);
+function updateStopwatch() {
+    // elapsed time is always computed from real timestamps, so it self-corrects
+    // no matter how delayed/throttled the interval was while the tab was hidden
+    totalSeconds = Math.floor((Date.now() - stopwatchStartTime) / 1000);
+    displayMinute = Math.floor(totalSeconds / 60);
+    displaySecond = totalSeconds % 60;
+    if (displayMinute < 10) {
+        displayMinute = "0" + displayMinute;
+    }
+    if (displaySecond < 10) {
+        displaySecond = "0" + displaySecond;
+    }
+    timerDisplay.textContent = displayMinute + ":" + displaySecond;
 }
 
 
 function startTimer() {
     remainingSeconds = Number(currentTimer) * 60;
-    timer = setInterval(() => {
-        if (remainingSeconds === 0) {
-            clearInterval(timer);
-            totalStudyTime += Number(currentTimer) * 60;
-            studyTimes[today]=totalStudyTime;
-            localStorage.setItem("StudyTimes",JSON.stringify(studyTimes));
-            updateStudyTimeDisplay();
-            postStart.hidden = true;
-            startFocus.hidden = false;
-            stopwatchMode.disabled = false;
-            timerMode.disabled = false;
-            pauseFocus.hidden = false;
-            resumeFocus.hidden = true;
-            for (let button of timerButton) {
-                button.disabled = false;
-            }
-            customHour.value="";
-            customMin.value="";
-            customHour.readOnly = false;
-            customMin.readOnly = false;
-            return;
-        }
-        remainingSeconds--;
-        displayMinute = Math.floor(remainingSeconds / 60);
-        displaySecond = remainingSeconds % 60;
-        if(displayMinute < 10) {
-            displayMinute = "0" + displayMinute;
-        }
-        if(displaySecond < 10) {
-            displaySecond = "0" + displaySecond;
-        }
-        timerDisplay.textContent = displayMinute + ":" + displaySecond;
-
-    }, 1000);
+    timerEndTime = Date.now() + remainingSeconds * 1000; // absolute moment it should hit 0
+    timer = setInterval(timerTick, 1000);
+    timerTick(); // paint immediately instead of waiting for the first tick
 }
 
 
 function resumeTimer() {
-    timer = setInterval(() => {
-        if (remainingSeconds === 0) {
-            clearInterval(timer);
+    // recompute the target end-time from wherever remainingSeconds was left at pause
+    timerEndTime = Date.now() + remainingSeconds * 1000;
+    timer = setInterval(timerTick, 1000);
+    timerTick();
+}
 
-            totalStudyTime += Number(currentTimer) * 60;
-            studyTimes[today]=totalStudyTime;
-            localStorage.setItem("StudyTimes",JSON.stringify(studyTimes));
-            updateStudyTimeDisplay();
 
-            postStart.hidden = true;
-            startFocus.hidden = false;
+function timerTick() {
+    // remaining time is always computed from real timestamps, so it self-corrects
+    // no matter how delayed/throttled the interval was while the tab was hidden
+    remainingSeconds = Math.max(0, Math.round((timerEndTime - Date.now()) / 1000));
+    displayMinute = Math.floor(remainingSeconds / 60);
+    displaySecond = remainingSeconds % 60;
+    if (displayMinute < 10) {
+        displayMinute = "0" + displayMinute;
+    }
+    if (displaySecond < 10) {
+        displaySecond = "0" + displaySecond;
+    }
+    timerDisplay.textContent = displayMinute + ":" + displaySecond;
 
-            stopwatchMode.disabled = false;
-            timerMode.disabled = false;
-
-            pauseFocus.hidden = false;
-            resumeFocus.hidden = true;
-
-            for (let button of timerButton) {
-                button.disabled = false;
-            }
-            customHour.value="";
-            customMin.value="";
-            customHour.readOnly = false;
-            customMin.readOnly = false;
-            return;
+    if (remainingSeconds === 0) {
+        clearInterval(timer);
+        totalStudyTime += Number(currentTimer) * 60;
+        studyTimes[today]=totalStudyTime;
+        localStorage.setItem("StudyTimes",JSON.stringify(studyTimes));
+        updateStudyTimeDisplay();
+        postStart.hidden = true;
+        startFocus.hidden = false;
+        stopwatchMode.disabled = false;
+        timerMode.disabled = false;
+        pauseFocus.hidden = false;
+        resumeFocus.hidden = true;
+        for (let button of timerButton) {
+            button.disabled = false;
         }
-        remainingSeconds--;
-        displayMinute = Math.floor(remainingSeconds / 60);
-        displaySecond = remainingSeconds % 60;
-        if (displayMinute < 10) {
-            displayMinute = "0" + displayMinute;
-        }
-        if (displaySecond < 10) {
-            displaySecond = "0" + displaySecond;
-        }
-        timerDisplay.textContent = displayMinute + ":" + displaySecond;
-    }, 1000);
+        customHour.value="";
+        customMin.value="";
+        customHour.readOnly = false;
+        customMin.readOnly = false;
+    }
 }
 
 
@@ -446,6 +428,7 @@ stopFocus.addEventListener("click", () => {
     pauseFocus.hidden = false;
     resumeFocus.hidden = true;
     if(currentMode === "stopwatch"){
+        updateStopwatch(); // snap totalSeconds to the exact moment of stopping
         clearInterval(stopWatch);
         totalStudyTime += totalSeconds;
         studyTimes[today]=totalStudyTime;
@@ -453,6 +436,7 @@ stopFocus.addEventListener("click", () => {
         totalSeconds = 0;
     }
     else if(currentMode === "timer"){
+        remainingSeconds = Math.max(0, Math.round((timerEndTime - Date.now()) / 1000)); // snap to the exact moment of stopping
         clearInterval(timer);
         // Total selected time - time remaining
         let studiedSeconds =
@@ -476,9 +460,11 @@ pauseFocus.addEventListener("click", () => {
     pauseFocus.hidden = true;
     resumeFocus.hidden = false;
     if (currentMode === "stopwatch") {
+        updateStopwatch(); // snap totalSeconds to the exact moment of pausing
         clearInterval(stopWatch);
     }
     else if (currentMode === "timer") {
+        remainingSeconds = Math.max(0, Math.round((timerEndTime - Date.now()) / 1000)); // snap to the exact moment of pausing
         clearInterval(timer);
     }
 });
@@ -491,6 +477,15 @@ resumeFocus.addEventListener("click", () => {
     }
     else if (currentMode === "timer") {
         resumeTimer();
+    }
+});
+
+// while the tab is hidden/throttled, the display can lag behind the real
+// elapsed time until the next tick fires - this snaps it back instantly
+document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible" && !postStart.hidden && !pauseFocus.hidden) {
+        if (currentMode === "stopwatch") updateStopwatch();
+        else if (currentMode === "timer") timerTick();
     }
 });
 
